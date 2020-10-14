@@ -19,8 +19,25 @@ public class _509_斐波那契数 {
         return second;
     }
 	
+	public static int fib2(int N) {
+		if (N <= 1) return N;
+
+		int first = 0;
+		int second = 1;
+		while(N-- > 1) {
+			second += first;
+			first = second - first;
+		}
+		return second;
+	}
+	
+	public static int fib3(int N) {
+		double c = Math.sqrt(5);
+		return (int)((Math.pow((1 + c) / 2, N) - Math.pow((1 - c) / 2, N)) / c);
+	}
+	
 	public static void main(String[] args) {
-		System.out.println(fib(3));
+		System.out.println(fib3(7));
 	}
 	
 }

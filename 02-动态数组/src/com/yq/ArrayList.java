@@ -4,6 +4,8 @@ package com.yq;
  * 1.static 表示静态方法，通过类进行调用。这里的方法都是需要 ArrayList 对象调用的，所以不需要加 static。
  * 2.构造函数之间调用使用 this。
  * 3.final 是常量的意思，相当于其它编程语言的 const。static 定义的变量内存只有一份。
+ * 4.垃圾回收。
+ * 
  */
 
 public class ArrayList {
@@ -68,7 +70,7 @@ public class ArrayList {
 	 * @param element
 	 */
 	public void add(int element) {
-		
+		elements[size++] = element;
 	}
 
 	/**
@@ -126,6 +128,23 @@ public class ArrayList {
 			if (elements[i] == element) return i; 
 		}
 		return ELEMENT_NOT_FOUND;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder();
+		string.append("size=").append(size).append(", [");
+		for (int i = 0; i < size; i++) {
+			if (i != 0) {
+				string.append(", ");
+			}
+			string.append(elements[i]);
+//			if (i != size - 1) {
+//				string.append(", ");
+//			}
+		}
+		string.append("]");
+		return string.toString();
 	}
 	
 }

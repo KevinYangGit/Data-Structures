@@ -28,20 +28,32 @@ public class Main {
 			return n;
 		return fib1(n - 1) + fib1(n - 2);
 	}
-
+	
 	public static int fib2(int n) {
 		if (n <= 1)
 			return n;
 
 		int first = 0;
 		int second = 1;
-		for (int i = 0; i < n - 1; i++) {
-			int sum = first + second;
-			first = second;
-			second = sum;
+		while(n-- > 1) {
+			second += first;
+			first = second - first;
 		}
 		return second;
 	}
+//	public static int fib2(int n) {
+//		if (n <= 1)
+//			return n;
+//
+//		int first = 0;
+//		int second = 1;
+//		for (int i = 0; i < n - 1; i++) {
+//			int sum = first + second;
+//			first = second;
+//			second = sum;
+//		}
+//		return second;
+//	}
 
 	public static void main(String[] args) {
 //			System.out.println(plus(1, 1));
