@@ -8,7 +8,8 @@ package com.yq;
  * 
  */
 
-public class ArrayList {
+@SuppressWarnings("unchecked")
+public class ArrayList<E> {
 
 	/*
 	 * 元素的数量
@@ -17,7 +18,7 @@ public class ArrayList {
 	/*
 	 * 所有的元素
 	 */
-	private int[] elements;
+	private E[] elements;
 	/*
 	 * 默认容量
 	 */
@@ -26,7 +27,7 @@ public class ArrayList {
 	
 	public ArrayList(int capacity) {
 		capacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
-		elements = new int[capacity];
+		elements = (E[]) new Object[capacity];
 	}
 	
 	public ArrayList() {
@@ -61,7 +62,7 @@ public class ArrayList {
 	 * @param element
 	 * @return
 	 */
-	public boolean contains(int element) {
+	public boolean contains(E element) {
 		return indexOf(element) != ELEMENT_NOT_FOUND;
 	}
 
@@ -69,19 +70,17 @@ public class ArrayList {
 	 * 添加元素到尾部
 	 * @param element
 	 */
-	public void add(int element) {
-		elements[size++] = element;
-	}
+	public void add(E element) {
+		add(size, element);
+	} 
 
 	/**
 	 * 获取index位置的元素
 	 * @param index
 	 * @return
 	 */
-	public int get(int index) {
-		if (index < 0 || index >= size) {
-			throw new IndexOutOfBoundsException("Index:" + index + ", Size" + size);
-		}
+	public E get(int index) {
+		rangeCheck(index);
 		return elements[index];
 	}
 
@@ -91,11 +90,9 @@ public class ArrayList {
 	 * @param element
 	 * @return 原来的元素ֵ
 	 */
-	public int set(int index, int element) {
-		if (index < 0 || index >= size) {
-			throw new IndexOutOfBoundsException("Index:" + index + ", Size" + size);
-		}
-		int old = elements[index];
+	public E set(int index, E element) {
+		rangeCheck(index);
+		E old = elements[index];
 		elements[index] = element;
 		return old;
 	}
@@ -105,8 +102,16 @@ public class ArrayList {
 	 * @param index
 	 * @param element
 	 */
-	public void add(int index, int element) {
+	public void add(int index, E element) {
+		rangeCheckForAdd(index);
 		
+		ensureCapacity(size + 1);
+		
+		for (int i = size - 1; i >= index; i--) {
+			elements[i + 1] = elements[i];
+		}
+		elements[index] = element;
+		size++;
 	}
 
 	/**
@@ -114,8 +119,14 @@ public class ArrayList {
 	 * @param index
 	 * @return
 	 */
-	public int remove(int index) {
-		return 0;
+	public E remove(int index) {
+		rangeCheck(index);
+		E old = elements[index];
+		for (int i = index + 1; i < size - 1; i++) {
+			elements[i - 1] = elements[i];
+		}
+		size--;
+		return old;
 	}
 
 	/**
@@ -123,7 +134,7 @@ public class ArrayList {
 	 * @param element
 	 * @return
 	 */
-	public int indexOf(int element) {
+	public int indexOf(E element) {
 		for (int i = 0; i < size; i++) {
 			if (elements[i] == element) return i; 
 		}
@@ -147,4 +158,33 @@ public class ArrayList {
 		return string.toString();
 	}
 	
+	private void ensureCapacity(int capacity) {
+		int oldCapacity = elements.length;
+		if (oldCapacity >= capacity) return;
+		// 新容量为就容量的1.5倍
+		int newCapacity = oldCapacity + (oldCapacity >> 1); //iOS 1.6, java 1.5, >> 表示除以2
+		E[] newElements = (E[]) new Object[newCapacity];
+		for (int i = 0; i < size; i++) {
+			newElements[i] = elements[i];
+		}
+		elements = newElements;
+		
+		System.out.println(oldCapacity + "扩容为" + newCapacity);
+	}
+	
+	private void outOfBounds(int index) {
+		throw new IndexOutOfBoundsException("Index:" + index + ", Size" + size);
+	}
+	
+	private void rangeCheck(int index) {
+		if (index < 0 || index >= size) {
+			outOfBounds(index);
+		}
+	}
+	
+	private void rangeCheckForAdd(int index) {
+		if (index < 0 || index > size) {
+			outOfBounds(index);
+		}
+	}
 }
