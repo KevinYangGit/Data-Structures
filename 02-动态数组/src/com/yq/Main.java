@@ -1,8 +1,13 @@
 package com.yq;
 
+//import sun.jvm.hotspot.oops.java_lang_Class;
+
 public class Main {
 
 	public static void main(String[] args) {
+		
+//		java.util.ArrayList<E>
+		
 		// int -> integer
 		// 所有的类都继承自Object
 		// new是想堆空间申请内存
@@ -12,6 +17,8 @@ public class Main {
 		persons.add(new Person(30, "Jerry"));
 		persons.add(new Person(10, "Tom-Son"));
 		System.out.println(persons);
+		
+		
 		persons.clear();
 		// 提示JVM进行垃圾回收
 		System.gc();

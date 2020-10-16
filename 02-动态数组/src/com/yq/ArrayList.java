@@ -110,8 +110,8 @@ public class ArrayList<E> {
 		
 		ensureCapacity(size + 1);
 		
-		for (int i = size - 1; i >= index; i--) {
-			elements[i + 1] = elements[i];
+		for (int i = size; i > index; i--) {
+			elements[i] = elements[i - 1];
 		}
 		elements[index] = element;
 		size++;
@@ -125,10 +125,10 @@ public class ArrayList<E> {
 	public E remove(int index) {
 		rangeCheck(index);
 		E old = elements[index];
-		for (int i = index + 1; i < size - 1; i++) {
+		for (int i = index + 1; i < size; i++) {
 			elements[i - 1] = elements[i];
-		}
-		size--;
+		} 
+		elements[--size] = null;
 		return old;
 	}
 
@@ -138,8 +138,15 @@ public class ArrayList<E> {
 	 * @return
 	 */
 	public int indexOf(E element) {
-		for (int i = 0; i < size; i++) {
-			if (elements[i] == element) return i; 
+		if (element == null) {
+			for (int i = 0; i < size; i++) {
+				if (elements[i] == null) return i;
+			}
+		} else {
+			for (int i = 0; i < size; i++) {
+//				if (elements[i] == element) return i; // == 比较内存地址
+				if (elements[i].equals(element)) return i; // 重写 equals()。Integer 调用 equals()，内部比较的是数值
+			}	
 		}
 		return ELEMENT_NOT_FOUND;
 	}
