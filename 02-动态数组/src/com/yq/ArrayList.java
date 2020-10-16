@@ -5,7 +5,7 @@ package com.yq;
  * 2.构造函数之间调用使用 this。
  * 3.final 是常量的意思，相当于其它编程语言的 const。static 定义的变量内存只有一份。
  * 4.垃圾回收。
- * 
+ * 5.在 Java 中，成员变量会自动初始化，如：int 类型自动初始化为 0；对象类型自动初始化为 null。
  */
 
 @SuppressWarnings("unchecked")
@@ -38,6 +38,9 @@ public class ArrayList<E> {
 	 * 清除所有元素
 	 */
 	public void clear() {
+		for (int i = 0; i < size; i++) {
+			elements[i] = null;
+		}
 		size = 0;
 	}
 
@@ -141,8 +144,11 @@ public class ArrayList<E> {
 		return ELEMENT_NOT_FOUND;
 	}
 	
+	// 重写 toString 方法
+	// 在 toString 方法中将元素拼接成字符串
 	@Override
 	public String toString() {
+		// 字符串拼接建议使用 StringBuilder
 		StringBuilder string = new StringBuilder();
 		string.append("size=").append(size).append(", [");
 		for (int i = 0; i < size; i++) {

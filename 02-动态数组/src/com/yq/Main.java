@@ -6,10 +6,15 @@ public class Main {
 		// int -> integer
 		// 所有的类都继承自Object
 		// new是想堆空间申请内存
+		// 左边<Person>表示泛型的类型，右边的<>初始化用，可以不用写
 		ArrayList<Person> persons = new ArrayList<>();
-		persons.add(element);
-		
-		
+		persons.add(new Person(20, "Tom"));
+		persons.add(new Person(30, "Jerry"));
+		persons.add(new Person(10, "Tom-Son"));
+		System.out.println(persons);
+		persons.clear();
+		// 提示JVM进行垃圾回收
+		System.gc();
 		
 //		ArrayList<Integer> list = new ArrayList<>();
 //		ArrayList list = new ArrayList();
