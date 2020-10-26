@@ -1,9 +1,11 @@
 package com.yq;
 
+import com.yq.single.SingleLinkedList;
+
 public class Main {
 
 	public static void main(String[] args) {
-		List<Integer> list = new LinkedList<>();
+		List<Integer> list = new SingleLinkedList<>();
 		list.add(12);
 		list.add(0, 11);
 		list.add(13);

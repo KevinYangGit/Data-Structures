@@ -1,5 +1,9 @@
 package 链表;
-
+/**
+ * https://leetcode-cn.com/problems/middle-of-the-linked-list/
+ * @author yangqi
+ *
+ */
 public class _876_链表的中间结点 {
 	
     public ListNode middleNode(ListNode head) {
@@ -11,7 +15,7 @@ public class _876_链表的中间结点 {
 			node = node.next;
 		}
     	
-    	count = count/2;
+    	count = count >> 1;
     	
     	while (node != null) {
     		if (count > 0) {

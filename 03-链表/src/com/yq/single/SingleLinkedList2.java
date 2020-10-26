@@ -1,13 +1,18 @@
-package com.yq;
+package com.yq.single;
 
 import com.yq.AbstractList;
+import com.yq.single.SingleLinkedList.Node;
 
 //extends 继承
 
 
-public class LinkedList<E> extends AbstractList<E>{
+public class SingleLinkedList2<E> extends AbstractList<E>{
 
 	private Node<E> first;
+
+	public SingleLinkedList2() {
+		first = new Node<>(null, null);
+	}
 
 	public static class Node<E> {
 		E element;
@@ -41,28 +46,17 @@ public class LinkedList<E> extends AbstractList<E>{
 	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
-		
-		if (index == 0) {
-			first = new Node<>(element, first);
-		} else {
-			Node<E> prev = node(index - 1);
-			prev.next = new Node<>(element, prev.next);	
-		}
+		Node<E> prev = index == 0 ? first : node(index - 1);
+		prev.next = new Node<>(element, prev.next);
 		size++;
 	}
 
 	@Override
 	public E remove(int index) {
 		rangeCheck(index);
-		
-		Node<E> node = first;
-		if (index == 0) {
-			first = first.next;
-		} else {
-			Node<E> prev = node(index - 1);
-			node = prev.next;
-			prev.next = node.next;	
-		}
+		Node<E> prev = index == 0 ? first : node(index - 1);
+		Node<E> node = prev.next;
+		prev.next = node.next;
 		size--;
 		return node.element;
 	}
@@ -90,7 +84,7 @@ public class LinkedList<E> extends AbstractList<E>{
 	private Node<E> node(int index) {
 		rangeCheck(index);
 		
-		Node<E> node = first;
+		Node<E> node = first.next;
 		for (int i = 0; i < index; i++) {
 			node = node.next;
 		}

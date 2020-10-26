@@ -1,5 +1,9 @@
 package com.yq;
 
+/*
+ * 动态数组的缩容
+ */
+
 /* java 语法
  * 1.static 表示静态方法，通过类进行调用。这里的方法都是需要 ArrayList 对象调用的，所以不需要加 static。
  * 2.构造函数之间调用使用 this。
@@ -9,7 +13,7 @@ package com.yq;
  */
 
 @SuppressWarnings("unchecked")
-public class ArrayList<E> extends AbstractList<E> {
+public class ArrayList2<E> extends AbstractList<E> {
 	/*
 	 * 所有的元素
 	 */
@@ -19,12 +23,12 @@ public class ArrayList<E> extends AbstractList<E> {
 	 */
 	private static final int DEFAULT_CAPACITY = 10;
 	
-	public ArrayList(int capacity) {
+	public ArrayList2(int capacity) {
 		capacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
 		elements = (E[]) new Object[capacity];
 	}
 	
-	public ArrayList() {
+	public ArrayList2() {
 		this(DEFAULT_CAPACITY);
 	}
 	
@@ -100,6 +104,9 @@ public class ArrayList<E> extends AbstractList<E> {
 			elements[i - 1] = elements[i];
 		} 
 		elements[--size] = null;
+		
+		trim();
+		
 		return old;
 	}
 
@@ -154,5 +161,18 @@ public class ArrayList<E> extends AbstractList<E> {
 		elements = newElements;
 		
 		System.out.println(oldCapacity + "扩容为" + newCapacity);
+	}
+	
+	private void trim() {
+		int oldCapacity = elements.length;
+		int newCapacity = oldCapacity >> 1;
+		// 剩余空间小于一半 || 空间大小 <= 默认空间
+		if (size >= newCapacity || oldCapacity <= DEFAULT_CAPACITY) return;
+		
+		E[] newElements = (E[]) new Object[newCapacity];
+		for (int i = 0; i < size; i++) {
+			newElements[i] = elements[i];
+		}
+		elements = newElements;
 	}
 }
