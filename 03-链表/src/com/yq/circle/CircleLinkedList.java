@@ -1,11 +1,11 @@
-package com.yq;
+package com.yq.circle;
 
 import com.yq.AbstractList;
 
 //extends 继承
 
 
-public class LinkedList<E> extends AbstractList<E>{
+public class CircleLinkedList<E> extends AbstractList<E>{
 
 	private Node<E> first;
 	private Node<E> last;
