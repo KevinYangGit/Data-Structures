@@ -9,6 +9,7 @@ public class CircleLinkedList<E> extends AbstractList<E>{
 
 	private Node<E> first;
 	private Node<E> last;
+	private Node<E> current;
 
 	public static class Node<E> {
 		E element;
@@ -42,6 +43,30 @@ public class CircleLinkedList<E> extends AbstractList<E>{
 			return sb.toString();
 		}
  	}
+	
+	public void reset() {
+		current = first;
+	}
+	
+	public E next() {
+		if (current == null) return null;
+		
+		current = current.next;
+		return current.element;
+	}
+	
+	public E remove() {
+		if (current == null) return null;
+		
+		E element = remove(current);
+		if (size == 0) {
+			current = null;
+		} else {
+			current = current.next;
+		}
+		
+ 		return element;
+	}
 
 	/*
 	 * 没有被 gc root 对象指向的对象，都会被释放
@@ -75,47 +100,53 @@ public class CircleLinkedList<E> extends AbstractList<E>{
 		
 		if (index == size) { // index == size
 			Node<E> oldLast = last;
-			last = new Node<>(oldLast, element, null);
+			last = new Node<>(oldLast, element, first);
 			if (oldLast == null) { // 这是链表添加的第一个元素
 				first = last;
+				first.prev = first;
+				first.next = first;
 			} else {
 				oldLast.next = last;
+				first.prev = last;
 			}
 		} else {
 			Node<E> next = node(index);
 			Node<E> prev = next.prev;
  			Node<E> node = new Node<>(prev, element, next);
 			next.prev = node;
+			prev.next = node;
 			
- 			if (prev == null) { // index == 0
+ 			if (next == first) { // index == 0
 				first = node;
-			} else {
-				prev.next = node;
 			}
 		}
 		size++;
 	}
-
+	
 	@Override
 	public E remove(int index) {
 		rangeCheck(index);
-		
-		Node<E> node = node(index);
-		Node<E> prev = node.prev;
-		Node<E> next = node.next;
-		
-		if (prev == null) { // index == 0
-			first = next;
+		return remove(node(index));
+	}
+	
+	public E remove(Node<E> node) {
+		if (size == 0) {
+			first = null;
+			last = null;
 		} else {
+			Node<E> prev = node.prev;
+			Node<E> next = node.next;
 			prev.next = next;
-		}
-		
-		if (next == null) { // index == size - 1
-			last = prev;
-		} else {
 			next.prev = prev;
+			
+			if (node == first) { // index == 0
+				first = next;
+			}
+			
+			if (node == last) { // index == size - 1
+				last = prev;
+			}
 		}
- 		
 		size--;
 		return node.element;
 	}
