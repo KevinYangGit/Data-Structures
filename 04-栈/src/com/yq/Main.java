@@ -1,5 +1,6 @@
 package com.yq;
 
+
 public class Main {
 	
 	static void testStack() {
@@ -28,5 +29,6 @@ public class Main {
 	
 	public static void main(String[] args) {
 		testStack2();
+		java.util.Stack<Integer> stack;
 	}
 }
