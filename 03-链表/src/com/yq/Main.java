@@ -1,5 +1,7 @@
 package com.yq;
 
+import java.util.LinkedList;
+
 import com.yq.circle.CircleLinkedList;
 //import com.yq.circle.SingleCircleLinkedList;
 
@@ -28,21 +30,13 @@ public class Main {
 		list.remove(0); 
 		list.remove(2); 
 		list.remove(list.size() - 1); //[15, 66, 13, 99, 12, 11, 11, 22, 33, 44]
-		list.remove(0);
-		list.remove(0);
-		list.remove(0);
-		list.remove(0);
-		list.remove(0);
-		list.remove(0);
-		list.remove(0);
-		list.remove(0);
 		
-//		Asserts.test(list.indexOf(44) == 9);
-//		Asserts.test(list.indexOf(77) == List.ELEMENT_NOT_FOUND);
-//		Asserts.test(list.contains(33));
-//		Asserts.test(list.get(0) == 15);
-//		Asserts.test(list.get(1) == 66);
-//		Asserts.test(list.get(list.size() - 1) == 44);
+		Asserts.test(list.indexOf(44) == 9);
+		Asserts.test(list.indexOf(77) == List.ELEMENT_NOT_FOUND);
+		Asserts.test(list.contains(33));
+		Asserts.test(list.get(0) == 15);
+		Asserts.test(list.get(1) == 66);
+		Asserts.test(list.get(list.size() - 1) == 44);
 		
 		System.out.println(list);
 	}
