@@ -1,5 +1,8 @@
 package com.yq;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 import com.yq.circle.CircleDeque;
 import com.yq.circle.CircleQueue;
 
@@ -89,9 +92,18 @@ public class Main {
 	
 	public static void main(String[] args) {
 //		test3();
-		test2();
+//		test2();
 //		test1();
 //		java.util.Queue<Integer> queue2;
 //		java.util.LinkedList<E> linkedList;
+		
+		Deque<Integer> queue = new LinkedList<Integer>();
+		queue.add(1);
+		queue.add(2);
+		queue.add(3);
+		queue.add(4);
+		while (!queue.isEmpty()) {
+			System.out.println(queue.pollLast());
+		}
 	}
 }
