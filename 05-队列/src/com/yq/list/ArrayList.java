@@ -145,7 +145,7 @@ public class ArrayList<E> extends AbstractList<E> {
 	private void ensureCapacity(int capacity) {
 		int oldCapacity = elements.length;
 		if (oldCapacity >= capacity) return;
-		// 新容量为就容量的1.5倍
+		// 新容量为旧容量的1.5倍
 		int newCapacity = oldCapacity + (oldCapacity >> 1); //iOS 1.6, java 1.5, >> 表示除以2
 		E[] newElements = (E[]) new Object[newCapacity];
 		for (int i = 0; i < size; i++) {
