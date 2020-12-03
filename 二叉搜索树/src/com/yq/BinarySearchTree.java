@@ -192,7 +192,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 			return this.left == null && this.right == null;
 		}
 		
-		public boolean isHasChildren() {
+		public boolean isHasTwoChildren() {
 			return this.left != null && this.right != null;
 		}
 	}
@@ -224,6 +224,45 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		}
 		return myNode.element + "_p(" + parentString + ")";
 	}
+	
+	public Node<E> predecessor(Node<E> node) {
+		if (node == null) return node;
+		
+		Node<E> p = node.left;
+		if (p != null) {
+			while (p.right != null) {
+				p = p.right;
+			}
+			return p;
+		}
+		
+		while (node.parent != null && node == node.parent.left) {
+			node = node.parent;
+		}
+		// node.parent == null
+		// node == node.parent.right
+		return node.parent;
+	}
+	
+	public Node<E> successor(Node<E> node) {
+		if (node == null) return node;
+		
+		Node<E> p = node.right;
+		if (p != null) {
+			while (p.left != null) {
+				p = p.left;
+			}
+			return p;
+		}
+		
+		while (node.parent != null && node == node.parent.right) {
+			node = node.parent;
+		}
+		// node.parent == null
+		// node == node.parent.right
+		return node.parent;
+	}
+	
 	/*
 	 * 是否是完全二叉树
 	 */
@@ -254,6 +293,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		}
 		return true;
 	}
+	
 	/*
 	 * 二叉树的高度
 	 */
