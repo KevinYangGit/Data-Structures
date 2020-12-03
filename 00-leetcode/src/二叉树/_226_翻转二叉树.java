@@ -63,9 +63,20 @@ public class _226_翻转二叉树 {
     	Queue<TreeNode> queue = new LinkedList<>();
     	queue.offer(root);
     	
-    	while (en.hasMoreElements()) {
-			type type = (type) en.nextElement();
+    	while (!queue.isEmpty()) {
+			TreeNode node = queue.poll();
 			
+			TreeNode temp = node.left;
+			node.left = node.right;
+			node.right = temp;
+			
+			if (node.left != null) {
+				queue.offer(node.left);
+			}
+			
+			if (node.right != null) {
+				queue.offer(node.right);
+			}
 		}
     	
 		return root;

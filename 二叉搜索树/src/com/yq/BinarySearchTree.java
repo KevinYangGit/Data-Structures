@@ -228,6 +228,9 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	 * 是否是完全二叉树
 	 */
 	public boolean isComplete() {
+		
+		if (root == null) return false;
+		
 		Queue<Node<E>> queue = new LinkedList<>();
 		queue.offer(root);
 		boolean leaf = false;
