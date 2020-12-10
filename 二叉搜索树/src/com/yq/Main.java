@@ -127,6 +127,9 @@ public class Main {
 		System.out.println("二叉树高度：" + bst.height());
 	}
 	
+	/*
+	 * 完全二叉树判断
+	 */
 	static void test6() {
 //		Integer data[] = new Integer[] {
 //				7, 4, 2, 1, 3, 5, 9, 8, 11, 10, 12
@@ -142,8 +145,55 @@ public class Main {
 		BinaryTrees.println(bst);
 		System.out.println(bst.isComplete());
 	}
+	/*
+	 * 前序遍历-迭代
+	 */
+	static void test7() {
+		Integer data[] = new Integer[] {
+				7, 4, 2, 1, 3, 5, 9, 11
+		};
+		BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+		for (int i = 0; i < data.length; i++) {
+			bst.add(data[i]);
+		}
+		BinaryTrees.println(bst);
+		System.out.println();
+		
+		System.out.print("前序遍历（迭代）：");
+		bst.preorderTraversal1(new Visitor<Integer>() {
+			@Override
+			public boolean visit(Integer element) {
+				System.out.print(element + " ");
+				return element == 12;
+			}
+		});
+		System.out.println();
+		
+		System.out.print("中序遍历（迭代）：");
+		bst.inorderTraversal1(new Visitor<Integer>() {
+			@Override
+			public boolean visit(Integer element) {
+				System.out.print(element + " ");
+				return element == 12;
+			}
+		});
+		System.out.println();
+		
+		
+		System.out.print("后序遍历（迭代）：");
+		bst.postorderTraversalIterative(new Visitor<Integer>() {
+			@Override
+			public boolean visit(Integer element) {
+				System.out.print(element + " ");
+				return element == 12;
+			}
+		});
+		System.out.println();
+		
+		System.out.println(bst.widthOfBinaryTree());
+	}
 	
 	public static void main(String[] args) {
-		test6();
+		test7();
 	}
 }

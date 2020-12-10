@@ -1,10 +1,13 @@
 package com.yq;
 
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import com.mj.printer.BinaryTreeInfo;
+
+import 二叉树.TreeNode;
 
 
 @SuppressWarnings("unchecked")
@@ -75,14 +78,14 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	public void contains(E element) {
 		
 	}
+	
 	/*
-	 * 前序遍历
+	 * 前序遍历 - 递归
 	 */
 	public void preorderTraversal(Visitor<E> visitor) {
 		if (visitor == null) return;
 		preorderTraversal(root, visitor);
 	}
-	
 	private void preorderTraversal(Node<E> node, Visitor<E> visitor) {
 		if (node == null || visitor.isStop) return;
 
@@ -91,13 +94,34 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		preorderTraversal(node.right, visitor);
 	}
 	/*
-	 * 中序遍历
+	 * 前序遍历 - 迭代
+	 */
+	public void preorderTraversal1(Visitor<E> visitor) {
+		if (visitor == null) return;
+		preorderTraversal1(root, visitor);
+	}
+	private void preorderTraversal1(Node<E> node, Visitor<E> visitor) {
+		if (node == null) return;
+
+		Deque<Node<E>> stack = new LinkedList<>();
+		while (!stack.isEmpty() || node != null) {
+			while (node != null) {
+				if (visitor.isStop) return;
+				visitor.isStop = visitor.visit(node.element);
+				stack.push(node);
+				node = node.left;
+			}
+			node = stack.pop();
+			node = node.right;
+		}
+	}
+	/*
+	 * 中序遍历 - 递归
 	 */
 	public void inorderTraversal(Visitor<E> visitor) {
 		if (visitor == null) return;
 		inorderTraversal(root, visitor);
 	}
-	
 	private void inorderTraversal(Node<E> node, Visitor<E> visitor) {
 		if (node == null || visitor.isStop) return;
 		
@@ -106,15 +130,35 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		visitor.isStop = visitor.visit(node.element);
 		inorderTraversal(node.right, visitor);
 	}
-	
 	/*
-	 * 后序遍历
+	 * 中序遍历 - 迭代
+	 */
+	public void inorderTraversal1(Visitor<E> visitor) {
+		if (visitor == null) return;
+		inorderTraversal1(root, visitor);
+	}
+	private void inorderTraversal1(Node<E> node, Visitor<E> visitor) {
+		if (node == null) return;
+		
+		Deque<Node<E>> stack = new LinkedList<>();
+		while (!stack.isEmpty() || node != null) {
+			while (node != null) {
+				stack.push(node);
+				node = node.left;
+			}
+			node = stack.pop();
+			if (visitor.isStop) return;
+			visitor.isStop = visitor.visit(node.element);
+			node = node.right;
+		}
+	}
+	/*
+	 * 后序遍历 - 递归
 	 */
 	public void postorderTraversal(Visitor<E> visitor) {
 		if (visitor == null) return;
 		postorderTraversal(root, visitor);
 	}
-	
 	private void postorderTraversal(Node<E> node, Visitor<E> visitor) {
 		if (node == null || visitor.isStop) return;
 		
@@ -123,9 +167,37 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		if (visitor.isStop) return;
 		visitor.isStop = visitor.visit(node.element);
 	}
+	/*
+	 * 后序遍历 - 迭代
+	 */
+	public void postorderTraversalIterative(Visitor<E> visitor) {
+		if (visitor == null) return;
+		postorderTraversalIterative(root, visitor);
+	}
+	private void postorderTraversalIterative(Node<E> node, Visitor<E> visitor) {
+		if (node == null || visitor.isStop) return;
+
+		Deque<Node<E>> stack = new LinkedList<>();
+		Node<E> prev = null;
+		while (!stack.isEmpty() || node != null) {
+			while (node != null) {
+				stack.push(node);
+				node = node.left;
+			}
+			node = stack.pop();
+			if (node.right == null || node.right == prev) {
+				visitor.isStop = visitor.visit(node.element);
+				prev = node;
+				node = null;
+			} else {
+				stack.push(node);
+				node = node.right;
+			}
+		}
+	}
 	
 	/*
-	 * 层序遍历（有回调）
+	 * 层序遍历（有回调）- 迭代
 	 */
 	public void levelOrder(Visitor<E> visitor) {
 		Queue<Node<E>> queue = new LinkedList<>();
@@ -346,4 +418,37 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		toString(node.left, sb, prefix + "L_");
 		toString(node.right, sb, prefix + "R_");
 	}
+	
+	public int widthOfBinaryTree() {
+    	int maxWidth = 0;
+    	if (root == null) return maxWidth;
+    	
+    	Queue<Node<E>> queue = new LinkedList<>();
+    	queue.offer(root);
+    	int levelSize = 1;
+    	while (!queue.isEmpty()) {
+    		Node<E> node = queue.poll();
+    		levelSize--;
+    		
+    		if (node.left != null) {
+				queue.offer(node.left);
+			}
+    		
+    		if (node.right != null) {
+    			if (node.left == null) {
+    				Node<E> newNode = new Node<>(node.element, null);
+    				queue.offer(newNode);
+    			}
+    			
+    			queue.offer(node.right);
+			}
+    		
+    		if (levelSize == 0) {
+				levelSize = queue.size();
+				maxWidth = maxWidth > levelSize ? maxWidth : levelSize;
+			}
+		}
+    	
+        return maxWidth;
+    }
 }
