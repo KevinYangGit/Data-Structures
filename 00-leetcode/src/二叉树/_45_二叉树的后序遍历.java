@@ -43,6 +43,7 @@ public class _45_二叉树的后序遍历 {
     			node = node.left;
     		}
         	node = stack.pop();
+        	
         	if (node.right == null || node.right == prev) {
 				res.add(node.val);
 				prev = node;

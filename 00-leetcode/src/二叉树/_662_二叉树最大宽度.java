@@ -6,39 +6,40 @@ import java.util.Queue;
 // [1,1,1,1,null,null,1,1,null,null,1]
 public class _662_二叉树最大宽度 {
     public int widthOfBinaryTree(TreeNode root) {
-    	int maxWidth = 0;
-    	if (root == null) return maxWidth;
-
-    	Queue<TreeNode> queue = new LinkedList<>();
-    	queue.offer(root);
-    	int levelSize = 1;
-    	boolean hasRight = false;
+    	if (root == null) return 0;
+    	
+    	Node node = new Node(root, 0, 0);
+    	Queue<Node> queue = new LinkedList<>();
+    	queue.offer(node);
+    	int curDepth = 0, left = 0, ans = 0;
     	while (!queue.isEmpty()) {
-    		TreeNode node = queue.poll();
-    		levelSize--;
+    		node = queue.poll();
     		
-    		if (node.right != null) {
-    			queue.offer(node.right);
-    			hasRight = true;
-    		} else if (hasRight) {
-    			TreeNode newNode = new TreeNode(0);
-    			queue.offer(newNode);
-    		}
-    		
-    		if (node.left != null) {
-    			queue.offer(node.left);
-    		} else if (hasRight) {
-    			TreeNode newNode = new TreeNode(0);
-    			queue.offer(newNode);
-    		}
-    		
-    		if (levelSize == 0) {
-    			hasRight = false;
-    			levelSize = queue.size();
-    			maxWidth = maxWidth > levelSize ? maxWidth : levelSize;
-    		}
+    		if (node.treeNode != null) {
+				queue.offer(new Node(node.treeNode.left, node.depth + 1, node.pos * 2));
+				queue.offer(new Node(node.treeNode.right, node.depth + 1, node.pos * 2 + 1));
+				
+				//每开始遍历新的一层，记录最左边的pos
+				if (curDepth != node.depth) {
+					curDepth = node.depth;
+					left = node.pos;
+				}
+				
+				ans = Math.max(ans, node.pos - left + 1);
+			}
     	}
 
-    	return maxWidth;
+    	return ans;
     }
+}
+
+//因为左右子树存在null的情况，所以创建新的Node包装TreeNode，这样就可以存储TreeNode==null情况
+class Node {
+	TreeNode treeNode;
+	int depth, pos;
+	public Node(TreeNode treeNode, int depth, int pos) {
+		this.treeNode = treeNode;
+		this.depth = depth;
+		this.pos = pos;
+	}
 }
