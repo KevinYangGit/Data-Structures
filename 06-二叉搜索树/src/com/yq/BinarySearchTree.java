@@ -4,10 +4,7 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
-
 import com.mj.printer.BinaryTreeInfo;
-
-import 二叉树.TreeNode;
 
 
 @SuppressWarnings("unchecked")
@@ -34,7 +31,8 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	}
 	
 	public void clear() {
-		
+		root = null;
+		size = 0;
 	}
 	
 	public void add(E element) {
@@ -71,12 +69,63 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		size++;
 	} 
 	
+	public boolean contains(E element) {
+		return node(element) != null;
+	}
+
 	public void remove(E element) {
-		
+		remove(node(element));
 	}
 	
-	public void contains(E element) {
+	private void remove(Node<E> node) {
 		
+		//删除度为2的节点
+		if (node.isHasTwoChildren()) {
+			//找到后继节点
+			Node<E> s = successor(node);
+			//用后继节点的值覆盖度为2的节点的值
+			node.element = s.element;
+			//删除后继节点
+			node = s;
+		}
+		
+		//删除度为1或0的节点
+		Node<E> replacement = node.left != null ? node.left : node.right;
+		
+		if (replacement != null) { // node是度为1的节点
+			// 更改parent
+			replacement.parent = node.parent;
+			// 更改parent的left、right的指向
+			if (node.parent == null) { //node是度为1的节点并且是根节点
+				root = replacement;
+			} else if (node.parent.left == node) {
+				node.parent.left = replacement;
+			} else {
+				node.parent.right = replacement;
+			}
+		} else if (node.parent == null) { // node是叶子节点并且是根节点
+			root = null;
+		} else { // node是叶子节点，但不是根节点
+			if (node.parent.left == node) {
+				node.parent.left = null;
+			} else {
+				node.parent.right = null;
+			}
+		}
+	}
+	
+	private Node<E> node(E element) {
+		Node<E> node = root;
+		while (node != null) {
+			int cmp = compare(element, node.element);
+			if (cmp == 0) return node;
+			if (cmp > 0) {
+				node = node.right;
+			} else {
+				node = node.left;
+			}
+		}
+		return node;
 	}
 	
 	/*
@@ -396,13 +445,13 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	}
 	
 //	public int height() {
-//		return height(root);
-//	}
-//	
-//	private int height(Node<E> node) {
-//		if (node == null) return 0; // 设置递归停止条件
-//		return 1 + Math.max(height(node.left), height(node.right)); // 取左右子树的高度中较大的一个加一
-//	}
+//	return height(root);
+//}
+//
+//private int height(Node<E> node) {
+//	if (node == null) return 0; // 设置递归停止条件
+//	return 1 + Math.max(height(node.left), height(node.right)); // 取左右子树的高度中较大的一个加一
+//}
 	
 	@Override
 	public String toString() {

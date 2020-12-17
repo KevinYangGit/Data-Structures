@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import sun.security.krb5.internal.rcache.AuthTimeWithHash;
-
 public class _106_从中序与后序遍历序列构造二叉树 {
 	/*
 	 * 方法一：递归

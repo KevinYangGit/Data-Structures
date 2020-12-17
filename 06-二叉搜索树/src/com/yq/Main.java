@@ -193,7 +193,19 @@ public class Main {
 		System.out.println(bst.widthOfBinaryTree());
 	}
 	
+	static void test8() {
+		Integer data[] = new Integer[] {
+				7, 4, 2, 1, 3, 5, 9, 8, 11, 12
+		};
+		BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+		for (int i = 0; i < data.length; i++) {
+			bst.add(data[i]);
+		}
+		
+		BinaryTrees.println(bst);
+	}
+	
 	public static void main(String[] args) {
-		test7();
+		test8();
 	}
 }
