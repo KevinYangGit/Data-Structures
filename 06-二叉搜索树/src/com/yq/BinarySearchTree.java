@@ -114,6 +114,9 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		}
 	}
 	
+	/*
+	 * 根据元素内容获取节点
+	 */
 	private Node<E> node(E element) {
 		Node<E> node = root;
 		while (node != null) {

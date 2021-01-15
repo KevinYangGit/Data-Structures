@@ -7,7 +7,7 @@ public class Main {
 	
 	static void test1() {
 		Integer data[] = new Integer[] {
-				7, 4, 2, 1, 3, 5, 9, 8, 11, 12
+				1, 2, 3
 		};
 		BST<Integer> bst = new BST<>();
 		for (int i = 0; i < data.length; i++) {
@@ -15,6 +15,8 @@ public class Main {
 		}
 		
 		BinaryTrees.println(bst);
+		
+		System.out.println(bst.isValidBST());
 	}
 	
 	public static void main(String[] args) {

@@ -322,4 +322,26 @@ public class BinaryTree<E> implements BinaryTreeInfo {
 		}
 		return myNode.element + "_p(" + parentString + ")";
 	}
+	
+	public boolean isValidBST() {
+		boolean isValid = false;
+		preorder1(root, isValid);
+		System.out.println("----");
+    	return isValid;
+    }
+	
+	public void preorder1(Node<E> root, boolean isValid) {
+		if (root == null) return;
+		
+		if (root.left != null) {
+			isValid = ((Comparable<E>)root.left.element).compareTo(root.element) < 0;
+			System.err.println("left " + isValid);
+		}
+		if (root.right != null) {
+			isValid = ((Comparable<E>)root.right.element).compareTo(root.element) > 0;
+			System.err.println("right " + isValid);
+		}
+		preorder1(root.left, isValid);
+		preorder1(root.right, isValid);
+	}
 }
